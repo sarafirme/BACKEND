@@ -1,5 +1,4 @@
 const UserModel = require('../models/UserModel');
-const ProductModel = require('../models/ProductModel');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 
@@ -51,15 +50,15 @@ const UserController = {
     },
 
     async list(request, response) {
-        const users = await UserModel.findOne();
+        const users = await UserModel.findAll();
 
-        const products = await ProductModel.findAll({
-            where: {
-                user_id: users.id
-            }
-        });
+        // const products = await ProductModel.findAll({
+        //     where: {
+        //         user_id: users.id
+        //     }
+        // });
 
-        users.setDataValue('products', products)
+        // users.setDataValue('products', products)+
         response.json(users);
 
     },
