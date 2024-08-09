@@ -1,4 +1,7 @@
 //Rotas em backend
+const dotenv = require("dotenv")
+dotenv.config();
+
 
 const express = require("express");
 const app = express();
@@ -12,9 +15,11 @@ const ProductController = require ('./controllers/ProductController');
 const ProductModel = require("./models/ProductModel");
 const UserModel = require("./models/UserModel");
 const UserCreateValidation = require('./middlewere/UserMiddleware');
+const JwtVerifyToken = require('./middlewere/JwtVerifyToken');
+
 
 app.get('/products', ProductController.list);
-app.post('/products', ProductController.create);
+app.post('/products', JwtVerifyToken, ProductController.create);
 
 app.get('/users', UserController.list);
 app.post('/users', UserCreateValidation, UserController.create);

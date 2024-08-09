@@ -22,7 +22,7 @@ const UserController = {
         let email = request.body.email;
         let password = request.body.password;
         let messageCompare = '';
-        let authSecret = 'jkdbfjfbdjfbsdkpk'
+        // let authSecret = process.env.JWT_SECRET - POSSO USAR ASSIM TBM
 
         //Controle para tornar email e senhas obrigatórios
         if (!email || !password) {
@@ -39,7 +39,7 @@ const UserController = {
             const expiresIn = '8h'
             const token = hasValid ? jwt.sign({
                 id: user.id, name: user.firstname, email: user.email
-            }, authSecret, {
+            }, process.env.JWT_SECRET, {
                 expiresIn
             }) : 'Usuário ou senha inválido!'
             messageCompare = token
