@@ -1,6 +1,8 @@
 const ProductModel = require("../models/ProductModel");
+const UserModel= require("../models/UserModel");
 const jwt = require('jsonwebtoken')
 
+ProductModel.belongsTo(UserModel, {foreignKey: 'user_id'}); //pertence a
 
 const ProductController = {
     create(request, response) {
@@ -9,8 +11,10 @@ const ProductController = {
             message: "Produto cadastrado com sucesso!"
         })
     },
-    async list(request, response){
-        const products = await ProductModel.findAll()
+    async list(request, response) {
+        const products = await ProductModel.findAll({
+            include: UserModel
+        });
         response.json(products);
     }
 

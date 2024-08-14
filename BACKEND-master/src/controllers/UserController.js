@@ -1,6 +1,9 @@
 const UserModel = require('../models/UserModel');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const ProductModel = require('../models/ProductModel');
+
+UserModel.hasMany(ProductModel, { foreignKey: 'user_id' });
 
 
 const UserController = {
@@ -50,7 +53,29 @@ const UserController = {
     },
 
     async list(request, response) {
-        const users = await UserModel.findAll();
+        //linha 6
+        const users = await UserModel.findAll({
+            include: ProductModel
+        });
+
+        return response.json(users);
+
+        /*//retorna um array de promisse
+        //[promisse, promisse, promisse]
+        let result = users.map(async(user) => {
+            let products = await ProductModel.findAll({
+                where:{
+                    user_id: user.id
+                }
+            })
+            return {
+                ...user.dataValues, //(...(spread syntax) retorna um objeto com tudo da linha 62 mais a linha 63)
+                products:products
+            }
+        });
+
+        result = await Promise.all(result); //Esperando que todas as promisses do meu array finalizar
+        response.json(result);*/
 
         // const products = await ProductModel.findAll({
         //     where: {
@@ -59,7 +84,7 @@ const UserController = {
         // });
 
         // users.setDataValue('products', products)+
-        response.json(users);
+        
 
     },
 

@@ -1,5 +1,4 @@
 const { Sequelize } = require("sequelize");
-console.log(process.env);
 
 const connection = new Sequelize ({
     dialect: process.env.DB_DRIVER,
